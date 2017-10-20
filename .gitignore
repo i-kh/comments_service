@@ -1,0 +1,5 @@
+.idea/*
+*.pyc
+conf.ini
+./comments_service/media/*
+./comments_service/logs/*
