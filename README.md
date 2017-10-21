@@ -89,3 +89,11 @@ _Channels’ design is such that anything is allowed to fail - a consumer can er
 
 
 ## Запуск
+Для запуска приложения выполните слудующие команды в консоли в папке проекта
+```
+cp config_default.ini config.ini
+docker-compose build
+docker-compose up -d
+docker-compose exec app python manage.py createsuperuser # следовать инструкциям терминала
+```
+Проект будет запущен на порту [8080](http://localhost:8080/comments)
