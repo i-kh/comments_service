@@ -50,7 +50,6 @@ def get_history(model, id_, with_deleted=None, date_from=None, date_to=None,
     else:
         history = get_inherited_comments(obj, serializer, with_deleted,
                                          date_from, date_to)
-    # TODO: обернуть в асинхронную таску
     save_to_file_task = save_history_to_file.delay(history, ext)
     obtain_result_and_notify.delay(save_to_file_task.id, 'file_url')
     data = dict(task_id=save_to_file_task.id)
@@ -160,11 +159,3 @@ def get_entity_obj(_id, _type):
 
 ############################################################################
 
-
-def get_historical_data(comment):
-    """
-    Obtaining history of  changes for the commet
-    :param comment: comment to obtain history for
-    :return: comment change history
-    """
-    pass

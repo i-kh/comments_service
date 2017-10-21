@@ -14,7 +14,9 @@ from comments_service.settings import MEDIA_ROOT, MEDIA_URL
 def save_history_to_file(history, ext=None, *args, **kwargs):
     ext = ext or JSON
     ext_dict = {JSON: dumps}
-    history = ext_dict.get(ext)(history, *args, **kwargs)
+    data_processing_function = ext_dict.get(ext, None)
+    if data_processing_function:
+        history = data_processing_function(history, *args, **kwargs)
     file_name = '{random_name}.{ext}'.format(random_name=uuid.uuid4(), ext=ext)
     with open(os.path.join(MEDIA_ROOT, file_name), 'w+') as f:
         f.write(history)
