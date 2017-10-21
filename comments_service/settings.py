@@ -169,10 +169,12 @@ LOGGING = {
         'comments_service.comment.notify': {
             'handlers': ['file'],
             'level': 'INFO',
+            'propagate': True,
         },
         'comments_service.comment.consumers': {
             'handlers': ['file'],
             'level': 'INFO',
+            'propagate': True,
         }
     },
 }

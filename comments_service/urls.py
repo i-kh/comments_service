@@ -23,6 +23,8 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^comments/', include('comments_service.comment.urls')),
+    url(r'^posts/', include('comments_service.post.urls')),
+    url(r'^pages/', include('comments_service.page.urls')),
     url(r'^history/', include('comments_service.history.urls')),
 ] + static(MEDIA_URL, document_root=MEDIA_ROOT)
 
