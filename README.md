@@ -74,8 +74,18 @@ _Channels’ design is such that anything is allowed to fail - a consumer can er
 Возможность добавления дополнительных средств обработки сериализованных данных перед сохранением в файл, путем расширения словаря `ext_dict` задачи `save_history_to_fil` расширяет возможности обработки данных.
 
 ### Описание методов
-1.
-2.
-3.
-4.
+1. application_url/comments/ -
+   application_url/comments/comment/(?P<pk>[0-9]+)/
+   application_url/comments/top_comments/
+   application_url/comments/inherited_comments/(?P<id>[0-9]+)/(?P<type>["comment", "post", "page"]+)/$
+   application_url/comments/user_history/$
+   application_url/comments/store_history/$
+2.application_url/history/
+  application_url/history/^(?P<comment_id>[0-9]+)/
+3.application_url/pages/ -
+   application_url/pages/page/(?P<pk>[0-9]+)/
+4.application_url/posts/ -
+   application_url/posts/post/(?P<pk>[0-9]+)/
+
+
 ## Запуск
