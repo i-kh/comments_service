@@ -74,18 +74,92 @@ _Channels’ design is such that anything is allowed to fail - a consumer can er
 Возможность добавления дополнительных средств обработки сериализованных данных перед сохранением в файл, путем расширения словаря `ext_dict` задачи `save_history_to_fil` расширяет возможности обработки данных.
 
 ### Описание методов
-1. application_url/comments/ -
-   application_url/comments/comment/(?P<pk>[0-9]+)/
-   application_url/comments/top_comments/
-   application_url/comments/inherited_comments/(?P<id>[0-9]+)/(?P<type>["comment", "post", "page"]+)/$
-   application_url/comments/user_history/$
-   application_url/comments/store_history/$
-2.application_url/history/
-  application_url/history/^(?P<comment_id>[0-9]+)/
-3.application_url/pages/ -
-   application_url/pages/page/(?P<pk>[0-9]+)/
-4.application_url/posts/ -
-   application_url/posts/post/(?P<pk>[0-9]+)/
+1.Методы для работа с комментариями
+   
+   + application_url/comments/
+   
+    - **GET** - the list of all comments in the system, excluding deleted
+
+    -   **POST** - create a new comment
+    
+   + application_url/comments/comment/(?P<pk>[0-9]+)/
+    
+	   -  **GET** - return the not deleted comment information by id
+    
+	   - **PUT** - update a not deleted comment by id
+    
+	   - **DELETE** - mark the comment as deleted by id
+   
+   + application_url/comments/top_comments/ 
+    
+	   - **GET** - provides the list of top level comments
+   
+   + application_url/comments/inherited_comments/(?P<id>[0-9]+)/(?P<type>["comment", "post", "page"]+)/$
+    
+	   - **GET** - provides the list inherited comments of given object, where **id** is object id and **type** is type of the object (possible arguments are "comment", "post" and "page")
+   
+   + application_url/comments/user_history/$
+   
+	  - **POST** - provides the history of user's comments
+      
+        POST arguments:
+    
+        - **user_id**: ID of the user
+        
+        - **with_deleted**: if equals to true or 1 then the response
+        contains both deleted and not deleted comments and only not deleted
+        comments otherwise
+   
+   + application_url/comments/store_history/$
+    
+	   - **POST** - store user history or comment history information into the file
+        
+            POST arguments:
+        
+            - **id**: ID of an object
+            - **model**: object model name [comment|post|page|user]
+            - **date_from**: look date_to
+            - **date_to**: not required param to filter results by creation dates
+            - **with_deleted**: if equals to true or 1 then the response contains both deleted and not deleted comments and only not deleted comments otherwise
+            - **format**: file format to store data to 
+ 
+ 2. Методы для работы с историей изменений  
+   + application_url/history/
+   
+	   - **GET** - the list of all history records in system
+    
+  
+   + application_url/history/^(?P<comment_id>[0-9]+)/
+   
+	   - **GET** - the list of all comment history records by comment ID
+  
+3.Методы для работы со страницами 
+   
+   + application_url/pages/
+	   - **GET** - the list of all pages
+
+	   - **POST** - create a new page
+   + application_url/pages/page/(?P<pk>[0-9]+)/
+   
+	   - **GET** - return page information by id
+	   - **PUT** - update page by id
+	   - **DELETE** - delete page by id
+    
+    
+4.Методы для работы с постами
+    
+   + application_url/posts/
+   
+	   -  **GET** - the list of all posts
+	   -  **POST** - create a new post
+    
+   + application_url/posts/post/(?P<pk>[0-9]+)/
+    
+	    - **GET** - return post information by id
+    
+        - **PUT** - update post by id
+    
+        - **DELETE** - delete post by id
 
 
 ## Запуск
