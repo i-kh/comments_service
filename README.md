@@ -78,16 +78,33 @@ _Channels’ design is such that anything is allowed to fail - a consumer can er
    
    + application_url/comments/
    
-    - **GET** - the list of all comments in the system, excluding deleted
-
-    -   **POST** - create a new comment
+        - **GET** - the list of all comments in the system, excluding deleted
+        - **POST** - create a new comment 
+       
+       Request example:
+       ```json
+       {
+            "entity": {
+                "user": 1,
+                "date": "2017-10-08T12:34:48Z"
+            },
+            "to": 1,
+            "text": "text"
+        }
+       ```
     
    + application_url/comments/comment/(?P<pk>[0-9]+)/
     
-	   -  **GET** - return the not deleted comment information by id
-    
+	   - **GET** - return the not deleted comment information by id
 	   - **PUT** - update a not deleted comment by id
-    
+	   - **PATCH** - partially update a not deleted comment by id
+	    
+	    Request example:
+       ```json
+       {
+            "text": "Edited text"
+        }
+       ```
 	   - **DELETE** - mark the comment as deleted by id
    
    + application_url/comments/top_comments/ 
@@ -105,10 +122,10 @@ _Channels’ design is such that anything is allowed to fail - a consumer can er
         POST arguments:
     
         - **user_id**: ID of the user
-        
         - **with_deleted**: if equals to true or 1 then the response
         contains both deleted and not deleted comments and only not deleted
         comments otherwise
+        
    
    + application_url/comments/store_history/$
     
@@ -137,13 +154,26 @@ _Channels’ design is such that anything is allowed to fail - a consumer can er
    
    + application_url/pages/
 	   - **GET** - the list of all pages
-
 	   - **POST** - create a new page
+	   
+	    Request example:
+       ```json
+       {
+            "caption": "Test page",
+            "entity": {
+                "user": 1,
+                "date": "2012-03-22T11:12:00Z"
+            }
+        }
+
+       ```
+	   
    + application_url/pages/page/(?P<pk>[0-9]+)/
    
-	   - **GET** - return page information by id
-	   - **PUT** - update page by id
-	   - **DELETE** - delete page by id
+	   - **GET** - return a page information by id
+	   - **PUT** - update a page by id
+	   - **PATCH** - partially update a page by id
+	   - **DELETE** - delete a page by id
     
     
 4.Методы для работы с постами
@@ -152,14 +182,24 @@ _Channels’ design is such that anything is allowed to fail - a consumer can er
    
 	   -  **GET** - the list of all posts
 	   -  **POST** - create a new post
+	   
+	   Request example:
+       ```json
+       {
+            "caption": "Test post",
+            "entity": {
+                "user": 1,
+                "date": "2012-03-22T11:12:00Z"
+            }
+        }
+
     
    + application_url/posts/post/(?P<pk>[0-9]+)/
     
-	    - **GET** - return post information by id
-    
-        - **PUT** - update post by id
-    
-        - **DELETE** - delete post by id
+	    - **GET** - return a post information by id
+        - **PUT** - update a post by id
+        - **PATCH** - partially update a post by id
+        - **DELETE** - delete a post by id
 
 
 ## Запуск
