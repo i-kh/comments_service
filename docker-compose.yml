@@ -1,0 +1,28 @@
+version: '2'
+services:
+#Comments_service application
+    app:
+      build: ./
+      command: start
+      depends_on:
+        - db
+        - redis
+      ports:
+        - "8080:8080"
+        - "8081:8081"
+# Redis
+    redis:
+        restart: always
+        image: redis:4-alpine
+        ports:
+          - "6379:6379"
+# Postgresql DB
+    db:
+      restart: always
+      image: postgres:9.6-alpine
+      ports:
+        - "5432:5432"
+      environment:
+        - "POSTGRES_PASSWORD=comments"
+        - "POSTGRES_USER=comments"
+        - "POSTGRES_DB=comments"

@@ -9,12 +9,28 @@ https://docs.djangoproject.com/en/1.11/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.11/ref/settings/
 """
-
+import configparser
 import os
 import logging
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+import sys
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+config = configparser.ConfigParser()
+config_name = 'config.ini'
+print('Using default configs and', config_name)
+
+if os.path.isfile(config_name) and os.access(config_name, os.R_OK):
+    config.read(os.path.join(BASE_DIR, 'config.ini'))
+else:
+    print(("The config.ini {0}. Please use config.ini.example " +
+           "to create new config.ini file").format(
+        "not accessible" if os.path.isfile(config_name)
+        else "doesn't exist in " + BASE_DIR))
+    sys.exit(1)
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -98,11 +114,11 @@ WSGI_APPLICATION = 'comments_service.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'comments',
-        'USER': 'comments',
-        'PASSWORD': 'comments',
-        'HOST': 'localhost',
-        'PORT': '',
+        'NAME': config['database']['name'],
+        'USER': config['database']['user'],
+        'PASSWORD': config['database']['pass'],
+        'HOST': config['database']['host'],
+        'PORT': config['database']['port'],
     }
 }
 
@@ -143,7 +159,8 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "asgi_redis.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("localhost", 6379)],
+            "hosts": [(str(config['redis']['host']),
+                       int(config['redis']['port']))],
         },
         "ROUTING": "comments_service.comment.routing.channel_routing",
     },
